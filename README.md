@@ -63,8 +63,11 @@ var api = new WechatAPI('appid', 'secret', function (callback) {
   // 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
   // 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
   fs.writeFile('access_token.txt', JSON.stringify(token), callback);
+}, function (callback) {
+  fs.unlink('access_token.txt', callback);
 });
 ```
+增加清除令牌的回调，在遇到错误的访问令牌时，清除旧的令牌数据。
 
 ## Show cases
 ### Node.js API自动回复
